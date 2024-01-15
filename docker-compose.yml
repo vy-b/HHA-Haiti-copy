@@ -1,0 +1,48 @@
+version: '3.9'
+
+services:
+  server:
+    container_name: hhahaiti_server
+    depends_on:
+      - mongodb
+      - logger
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/
+      - SERVER_PORT=8000
+    volumes:
+      - server_logs:/var/log
+    logging:
+      driver: fluentd
+
+  mongodb:
+    container_name: hhahaiti_mongodb
+    depends_on:
+      - logger
+    image: mongo:5.0.6-focal
+    volumes:
+      - hhahaiti_mongodb_data:/data/db
+      - mongo_logs:/var/log
+    logging:
+      driver: fluentd
+
+  logger:
+    container_name: hhahaiti_fluentbit
+    image: fluent/fluent-bit:2.1.8
+    ports:
+      - 24224:24224
+    volumes:
+      - ./fluentbit-config:/fluent-bit/etc
+      - fluentbit_logs_output:/output
+      - fluentbit_logs_db:/persist
+      - server_logs:/logs/server:ro
+      - mongo_logs:/logs/mongodb:ro
+    command: ["fluent-bit", "-c", "/fluent-bit/etc/fluent-local.conf"]
+
+volumes:
+  hhahaiti_mongodb_data:
+
+  fluentbit_logs_db:
+  fluentbit_logs_output:
+  
+  mongo_logs:
+  server_logs:

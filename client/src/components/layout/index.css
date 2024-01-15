@@ -1,0 +1,15 @@
+.main.main-region {
+  position: absolute;
+  left: 88px;
+  width: calc(100% - 88px);
+  transition: width 0.5s, left 0.5s;
+}
+
+.main.main-region.expanded {
+  left: 288px;
+  width: calc(100% - 288px);
+}
+
+.errorMsg {
+  color: red;
+}

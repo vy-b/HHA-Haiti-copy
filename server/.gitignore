@@ -1,0 +1,18 @@
+/node_modules
+
+/config/dev.js
+/security/cert.key
+/security/cert.pem
+/public/case-study-*
+/build
+
+/.vscode
+.DS_Store
+../.DS_Store
+./dist/*
+/dist
+
+# random generated files on MacOS
+.DS_Store
+**/.DS_Store
+.env
